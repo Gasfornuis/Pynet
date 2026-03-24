@@ -27,7 +27,11 @@ def detect_SYN_scan(packet):
                 ports = [p for (p, t) in scan_tracker[source_ip]]
                 print(f"[ALERT] {source_ip} scanning ports:{len(ports)}")
 
-if __name__ == "__main__":
+def detect_full_TCP_scan(packet):
+    if packet.haslayer(TCP) and packet.haslayer(IP) and not packet[TCP].flags == "S":
+         
+
+def main():
     parser = argparse.ArgumentParser(description="simple port scanning detection")
     parser.add_argument("-i", "--interface", help="network interface for packet sniffing", required=True)
     parser.add_argument("-p", "--packet-type", help="type of packet to detect (SYN, TCP, UDP)", default="SYN")
@@ -39,3 +43,8 @@ if __name__ == "__main__":
         case "SYN":
             sniff(iface=args.interface, filter="tcp", prn=detect_SYN_scan, store=0)
 
+        case "TCP":
+            sniff(iface=args.interface, filter="tcp", prn=detect_full_TCP_scan, store=0)
+    
+if __name__ == "__main__":
+    main()
