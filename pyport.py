@@ -103,7 +103,8 @@ def save_results():
                 port_file.close()
         case _:
             return
-if __name__ == "__main__":
+
+def main():
     target_ip = get_Ip()
     scan_all_ports = input("do you want to scan all ports?(y/n) ")
     match scan_all_ports:
@@ -115,3 +116,7 @@ if __name__ == "__main__":
     send_Requests(target_ip, port_range, packet_type)
     print(open_ports)
     save_results()
+
+
+if __name__ == "__main__":
+    main()
